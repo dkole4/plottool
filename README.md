@@ -1,6 +1,6 @@
 # Plotting Tool
 
-A tool for tracking prices of cryptocurrencies and user-created bundles of cryptocurrencies and plotting gathered prices data.
+A tool for tracking cryptocurrency prices, creating bundles of cryptocurrencies and plotting gathered price data.
 
 ## Installing
 
