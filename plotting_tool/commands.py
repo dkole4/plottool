@@ -253,11 +253,12 @@ class CommandHandler():
         (subplots, *cryptocurrency_ids) = args
         subplots = int(subplots)
 
-        plot.validate_currency_arguments(cryptocurrency_ids, subplots)
         self._pause_background_updater()
         prices_data = file.load_cryptocur_plot_prices(cryptocurrency_ids)
         self._resume_background_updater()
 
+        plot.validate_currency_arguments(
+            cryptocurrency_ids, subplots, prices_data)
         plot.plot_prices(prices_data, cryptocurrency_ids, subplots)
 
     # Create a bundle of cryptocurrencies
@@ -295,11 +296,11 @@ class CommandHandler():
         (subplots, *bundle_ids) = args
         subplots = int(subplots)
 
-        plot.validate_bundle_arguments(bundle_ids, subplots)
         self._pause_background_updater()
         prices_data = file.load_bundle_plot_prices(bundle_ids)
         self._resume_background_updater()
 
+        plot.validate_bundle_arguments(bundle_ids, subplots, prices_data)
         plot.plot_prices(prices_data, bundle_ids, subplots)
 
     # List all the created cryptocurrency bundles

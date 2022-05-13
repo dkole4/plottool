@@ -90,7 +90,7 @@ def ensure_data_files_existence() -> None:
         (BUNDLE_PRICES_FILEPATH, BUNDLE_PRICES_DEFAULT_STATE)
     ):
         if not os.path.exists(file_path):
-            with open(file_path, "w", encoding="utf-8") as file:
+            with open(file_path, "w", encoding="utf-8", newline="") as file:
                 if isinstance(default_state, str):
                     file.write(default_state)
                 else:
@@ -169,9 +169,14 @@ def load_cryptocur_statistics(
             if num < stats[cur_id]["min"]:
                 stats[cur_id]["min"] = num
 
-    # Dividing the sum of all prices by the count of prices to calculate means
     for cur, price_sum in price_sums.items():
-        stats[cur]["mean"] = price_sum[0] / price_sum[1]
+        # Set mean and min to 0 if no prices available
+        # for a currency, otherwise calculate mean.
+        if price_sum[1] == 0:
+            stats[cur]["mean"] = 0
+            stats[cur]["min"] = 0
+        else:
+            stats[cur]["mean"] = price_sum[0] / price_sum[1]
 
     return stats
 
@@ -419,7 +424,7 @@ def remove_cryptocur_from_bundle(bundle_id: str, cryptocur_id: str) -> None:
 def _update_bundle_prices(
     bundle_id: str, cryptocurrencies: Dict[str, int]
 ) -> None:
-    with open(TMP_FILEPATH, "w", encoding="utf-8") as csvoutput:
+    with open(TMP_FILEPATH, "w", encoding="utf-8", newline="") as csvoutput:
         header = ["timestamp"] + load_bundle_ids()
 
         writer = csv.DictWriter(csvoutput, fieldnames=header)
@@ -442,6 +447,7 @@ def _update_bundle_prices(
             writer.writerow(bundle_price_prow)
 
     # Replacing BUNDLE_PRICES file with a created one
+    os.remove(BUNDLE_PRICES_FILEPATH)
     os.rename(TMP_FILEPATH, BUNDLE_PRICES_FILEPATH)
 
 
@@ -552,7 +558,9 @@ def _add_new_id(cryptocurrency_id: str) -> None:
 # its value to 0 for all existing rows
 def _add_column_to_csv(filename: str, column_name: str) -> None:
     with open(filename, "r", encoding="utf-8") as csvinput:
-        with open(TMP_FILEPATH, "w", encoding="utf-8") as csvoutput:
+        with open(
+            TMP_FILEPATH, "w", encoding="utf-8", newline=""
+        ) as csvoutput:
             # Creating a reader and a new header list with the new
             # cryptocurrency id in the end
             reader = csv.DictReader(csvinput)
@@ -566,6 +574,7 @@ def _add_column_to_csv(filename: str, column_name: str) -> None:
                 writer.writerow(row)
 
     # Replacing PRICES file with the updated one
+    os.remove(filename)
     os.rename(TMP_FILEPATH, filename)
 
 
@@ -612,7 +621,9 @@ def _remove_id(cryptocurrency_id: str) -> None:
 # Remove a column from a csv file
 def _remove_column_from_csv(filename: str, column_name: str) -> None:
     with open(filename, "r", encoding="utf-8") as csvinput:
-        with open(TMP_FILEPATH, "w", encoding="utf-8") as csvoutput:
+        with open(
+            TMP_FILEPATH, "w", encoding="utf-8", newline=""
+        ) as csvoutput:
             # Creating a reader and a new header list without given ID
             reader = csv.DictReader(csvinput)
             header = list(reader.fieldnames)
@@ -626,6 +637,7 @@ def _remove_column_from_csv(filename: str, column_name: str) -> None:
                 writer.writerow(row)
 
     # Replacing PRICES file with the updated one
+    os.remove(filename)
     os.rename(TMP_FILEPATH, filename)
 
 
@@ -699,7 +711,7 @@ def convert_prices(factor: float) -> None:
 def _convert_price_file_values(
     filename: str, header: List[str], factor: float
 ) -> None:
-    with open(TMP_FILEPATH, "w", encoding="utf-8") as outfile:
+    with open(TMP_FILEPATH, "w", encoding="utf-8", newline="") as outfile:
         writer = csv.DictWriter(outfile, fieldnames=header)
 
         writer.writeheader()
@@ -711,13 +723,14 @@ def _convert_price_file_values(
 
             writer.writerow(row)
 
+    os.remove(filename)
     os.rename(TMP_FILEPATH, filename)
 
 
 def _write_csv_entry(
     filename: str, data: Dict[str, Any], header: List[str]
 ) -> None:
-    with open(filename, "a", encoding="utf-8") as csvfile:
+    with open(filename, "a", encoding="utf-8", newline="") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=header)
         writer.writerow(data)
 

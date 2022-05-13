@@ -5,11 +5,14 @@ Functions:
 
     plot_prices(Dict[str, List[Union[datetime, float]]], List[str], int)
 
-    validate_currency_arguments(List[str], int)
+    validate_currency_arguments(
+        List[str], int, Dict[str, List[Union[datetime, float]]])
 
-    validate_bundle_arguments(List[str], int)
+    validate_bundle_arguments(
+        List[str], int, Dict[str, List[Union[datetime, float]]])
 
-    valid_plot_arguments(int, int) -> bool
+    valid_plot_arguments(int, int, Dict[str, List[Union[datetime, float]]])
+    -> bool:
 
     check_price_range(int, int) -> int
 
@@ -82,7 +85,9 @@ def plot_prices(
 
 
 def validate_currency_arguments(
-    cryptocurrency_ids: List[str], subplots: int
+    cryptocurrency_ids: List[str],
+    subplots: int,
+    prices: Dict[str, List[Union[datetime, float]]]
 ) -> None:
     """Check whether arguments are valid to be used in plot_prices function.
 
@@ -90,47 +95,69 @@ def validate_currency_arguments(
         cryptocurrency_ids (List[str]): Ids of cryptocurrencies
         which prices to plot.
         subplots (int): Number of subplots to use in plotting.
+        prices (Dict[str, List[Union[datetime, float]]]): Cryptocurrency
+        prices to plot.
 
     Raises:
-        ValueError: If given cryptocurrencies are not found or numbers
-        of cryptocurrencies and subplots are not suitable for plotting.
+        ValueError: If given cryptocurrencies are not found, numbers
+        of cryptocurrencies and subplots are not suitable for plotting
+        or price data is missing for one of given cryptocurrencies.
     """
-    if not valid_plot_arguments(len(cryptocurrency_ids), subplots):
+    if not valid_plot_arguments(len(cryptocurrency_ids), subplots, prices):
         raise ValueError(
-            "INVALID SUBPLOT NUMBER OR NUMBER OF CRYPTOCURRENCIES")
+            "INVALID SUBPLOT NUMBER, INVALID NUMBER OF CRYPTOCURRENCIES OR "
+            "ONE OF GIVEN CURRENCIES DOES NOT HAVE ANY SAVED PRICE VALUES"
+        )
 
     if not file.valid_cryptocurrency_ids(cryptocurrency_ids):
         raise ValueError("GIVEN CRYPTOCURRENCY IDS NOT FOUND")
 
 
-def validate_bundle_arguments(bundle_ids: List[str], subplots: int) -> None:
+def validate_bundle_arguments(
+    bundle_ids: List[str],
+    subplots: int,
+    prices: Dict[str, List[Union[datetime, float]]]
+) -> None:
     """Check whether arguments are valid to be used in plot_prices function.
 
     Args:
         bundle_ids (List[str]): Ids of bundles which prices to plot.
         subplots (int): Number of subplots to use in plotting.
+        prices (Dict[str, List[Union[datetime, float]]]): Bundle
+        prices to plot.
 
     Raises:
-        ValueError: If given bundles are not found or numbers
-        of cryptocurrencies and subplots are not suitable for plotting.
+        ValueError: If given bundles are not found, numbers of
+        cryptocurrencies and subplots are not suitable for plotting
+        or price data is missing for one of given bundles.
     """
-    if not valid_plot_arguments(len(bundle_ids), subplots):
-        raise ValueError("INVALID SUBPLOT NUMBER OR NUMBER OF BUNDLES")
+    if not valid_plot_arguments(len(bundle_ids), subplots, prices):
+        raise ValueError(
+            "INVALID SUBPLOT NUMBER, INVALID NUMBER OF BUNDLES OR "
+            "ONE OF GIVEN BUNDLESDOES NOT HAVE ANY SAVED PRICE VALUES"
+        )
 
     if not file.valid_bundle_ids(bundle_ids):
         raise ValueError("GIVEN BUNDLE IDS NOT FOUND")
 
 
-def valid_plot_arguments(ax_num: int, subplots: int) -> bool:
+def valid_plot_arguments(
+    ax_num: int, subplots: int, prices: Dict[str, List[Union[datetime, float]]]
+) -> bool:
     """Check whether arguments given to plot function are valid.
 
     Args:
         ax_num (int): number of axes
         subplots (int): number of subplots
+        prices (Dict[str, List[Union[datetime, float]]]): prices to plot
 
     Returns:
         bool: True if arguments are valid, False otherwise.
     """
+    for field, values in prices.items():
+        if not values:
+            return False
+
     return 0 < ax_num <= 8 and 0 < subplots <= 4 and \
         ax_num / subplots <= 2 and subplots <= ax_num
 
