@@ -3,7 +3,7 @@ This module provides file handling functionality for the application.
 
 Functions:
 
-
+    ensure_data_files_existence()
 
     load_cryptocur_prices(Optional[List[str]])
     -> Dict[str, Union[List[float], List[datetime]]]
