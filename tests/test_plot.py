@@ -30,17 +30,59 @@ class TestPlot(unittest.TestCase):
 
         os.rmdir(TEST_DATA_FOLDER)
 
-    def test_validate_arguments(self) -> None:
-        self.assertTrue(plot.valid_plot_arguments(1, 1))
-        self.assertTrue(plot.valid_plot_arguments(2, 1))
-        self.assertTrue(plot.valid_plot_arguments(2, 2))
-        self.assertTrue(plot.valid_plot_arguments(4, 4))
+    def test_valid_plot_arguments(self) -> None:
+        self.assertTrue(
+            plot.valid_plot_arguments(
+                1, 1, {"timestamps": ["date"], "bitcoin": [1]})
+        )
+        self.assertTrue(
+            plot.valid_plot_arguments(
+                2, 1, {"timestamps": ["date"], "bitcoin": [1], "cardano": [1]})
+        )
+        self.assertTrue(
+            plot.valid_plot_arguments(
+                2, 2, {"timestamps": ["date"], "bitcoin": [1], "cardano": [1]})
+        )
+        self.assertTrue(
+            plot.valid_plot_arguments(4, 4, {
+                "timestamps": ["date"],
+                "bitcoin": [1],
+                "cardano": [1],
+                "ethereum": [1],
+                "algorand": [1]
+            })
+        )
 
-        self.assertFalse(plot.valid_plot_arguments(1, 0))
-        self.assertFalse(plot.valid_plot_arguments(3, 1))
-        self.assertFalse(plot.valid_plot_arguments(10, 5))
-        self.assertFalse(plot.valid_plot_arguments(1, 16))
-        self.assertFalse(plot.valid_plot_arguments(1, -1))
+        self.assertFalse(plot.valid_plot_arguments(1, 0, {}))
+        self.assertFalse(
+            plot.valid_plot_arguments(
+                3, 1, {"timestamps": ["date"], "bitcoin": [1]})
+        )
+        self.assertFalse(
+            plot.valid_plot_arguments(10, 5, {
+                "timestamps": ["date"],
+                "bitcoin": [1],
+                "cardano": [1],
+                "ethereum": [1],
+                "algorand": [1],
+                "example_coin": [1]
+            })
+        )
+        self.assertFalse(
+            plot.valid_plot_arguments(1, 5, {
+                "timestamps": ["date"],
+                "bitcoin": [1],
+                "cardano": [1],
+                "ethereum": [1],
+                "algorand": [1],
+                "example_coin": [1]
+            })
+        )
+        self.assertFalse(plot.valid_plot_arguments(1, -1, {}))
+        self.assertFalse(plot.valid_plot_arguments(1, 1, {
+            "timestamps": ["date"],
+            "bitcoin": []
+        }))
 
     def test_check_price_range(self) -> None:
         with mock.patch("plotting_tool.settings.SETTINGS_PATH",
