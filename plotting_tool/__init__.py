@@ -7,6 +7,7 @@ Modules:
     commands   - User command handling modele.
     constants  - Constants used by the application.
     file       - File handling module.
+    help       - User manual module.
     plot       - Price plotting module.
     request    - Data fetching module.
     settings   - User settings handling module.
