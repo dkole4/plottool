@@ -134,7 +134,7 @@ def validate_bundle_arguments(
     if not valid_plot_arguments(len(bundle_ids), subplots, prices):
         raise ValueError(
             "INVALID SUBPLOT NUMBER, INVALID NUMBER OF BUNDLES OR "
-            "ONE OF GIVEN BUNDLESDOES NOT HAVE ANY SAVED PRICE VALUES"
+            "ONE OF GIVEN BUNDLE DOES NOT HAVE ANY SAVED PRICE VALUES"
         )
 
     if not file.valid_bundle_ids(bundle_ids):
@@ -154,7 +154,7 @@ def valid_plot_arguments(
     Returns:
         bool: True if arguments are valid, False otherwise.
     """
-    for field, values in prices.items():
+    for values in prices.values():
         if not values:
             return False
 
