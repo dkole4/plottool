@@ -17,13 +17,13 @@ HELP_DOCUMENTATION = (
 
 BASIC_COMMAND_DOCUMENTATION = (
     """
-    - quit                  | Exit the program.
-    - print (message)       | Print a message.
-    - eval (expression)     | Evaluate an arithmetic expression.
-    - timetog               | Toggle time display.
-    - settings              | Show user settings.
-    - set (setting) (value) | Set setting value.
-    - vscurrency (cur_code) | Change fiat currency.
+    - quit                                      | Exit the program.
+    - print (message)                           | Print a message.
+    - eval (expression)                         | Evaluate an arithmetic expression.
+    - timetog                                   | Toggle time display.
+    - settings                                  | Show user settings.
+    - set (setting) (value)                     | Set setting value.
+    - vscurrency (cur_code) (conversion_factor) | Change fiat currency.
     """
 )
 
