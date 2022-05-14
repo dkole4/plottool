@@ -19,9 +19,11 @@ class COMMAND_LIST:
     List of available user commands
     """
     EMPTY = ""
+    HELP = "help"
     QUIT = "quit"
     PRINT = "print"
     TOGGLE_TIME = "timetog"
+    EVAL = "eval"
 
     ADD_CURRENCY = "curadd"
     REMOVE_CURRENCY = "curdel"
@@ -42,8 +44,6 @@ class COMMAND_LIST:
     SHOW_SETTINGS = "settings"
     CHANGE_SETTINGS = "set"
     CHANGE_VS_CURRENCY = "vscurrency"
-
-    EVAL = "eval"
 
 
 class PROGRAM_STATUS:

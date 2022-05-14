@@ -15,6 +15,7 @@ from plotting_tool import stats
 from plotting_tool import util
 from plotting_tool.background import BackgroundUpdateThread
 from plotting_tool.constants import COMMAND_LIST, PROGRAM_STATUS, SETTING
+from plotting_tool.help import get_help_message
 from plotting_tool.settings import SettingHandler
 from plotting_tool.util import (
     greater_or_equal, parse_command_arguments, validate_command_arguments
@@ -38,6 +39,7 @@ class CommandHandler():
 
         self._commands: Dict[COMMAND_LIST, Callable] = {
             COMMAND_LIST.QUIT: self.exit_program,
+            COMMAND_LIST.HELP: self._show_help,
             COMMAND_LIST.PRINT: self._print_user_input,
             COMMAND_LIST.START_UPDATER: self._start_background_updater,
             COMMAND_LIST.CHECK_UPDATER_STATUS: self._check_updater_status,
@@ -85,6 +87,10 @@ class CommandHandler():
     def _get_user_input(self) -> str:
         self._print("----- Enter command:")
         return input("> ")
+
+    # Show a user manual message.
+    def _show_help(self, section: str = "") -> None:
+        self._print(get_help_message(section))
 
     # Print message to the user
     def _print(self, message: str) -> None:
