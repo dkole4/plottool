@@ -1,12 +1,20 @@
 # Plotting Tool
 
-A tool for tracking cryptocurrency prices, creating bundles of cryptocurrencies and plotting gathered price data.
+Tool for tracking cryptocurrency prices, creating bundles of cryptocurrencies and plotting gathered price data.
+Uses [CoinGecko Open Cryptocurrency API](https://www.coingecko.com/en/api) for price data fetching.
 
 ## Installing
 
-To install this tool, clone the repository and run the command below
+To install this tool, clone the repository and run the command below in the root folder.
 
 ```py
-pip3 install .  # Linux/Mac
-pip install .   # Windows
+# Linux / Mac
+pip3 install .
+OR
+python3 -m pip install .
+
+# Windows
+pip install .
+OR
+py -m pip install .
 ```
