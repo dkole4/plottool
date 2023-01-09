@@ -29,3 +29,18 @@ pip install .
 OR
 py -m pip install .
 ```
+
+## Using the application
+
+To see all the available commands and their descriptions, use command `help` 
+
+```
+[12.00.00] >>>>> STARTING THE PROGRAM
+[12.00.00] ----- Enter command:
+> help
+[12.00.05] 
+    - help        | Show this message.
+    - help basic  | Show basic commands.
+    - help cur    | Show cryptocurrency-related commands.
+    - help bund   | Show bundle-related commands.
+```
