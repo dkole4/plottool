@@ -5,7 +5,7 @@ Uses [CoinGecko Open Cryptocurrency API](https://www.coingecko.com/en/api) for p
 
 ## Testing 
 
-To test the application, run the following command in the root folder
+To run tests, run the following command in the root folder
 ```py
 # Linux / Mac
 python3 -m unittest -v
