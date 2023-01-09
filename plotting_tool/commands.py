@@ -102,11 +102,12 @@ class CommandHandler():
     # Print caught error to the user
     def _print_error(self, error: Exception) -> None:
         if isinstance(error, KeyError):
-            self._print("!!! ENTERED COMMAND NOT FOUND")
+            self._print("!!!!! ENTERED COMMAND NOT FOUND, USE " +
+                        "help TO SEE ALL AVAILABLE COMMANDS")
         elif isinstance(error, Exception):
-            self._print(f"!!! {str(error).upper()}")
+            self._print(f"!!!!! {str(error).upper()}")
         else:
-            self._print("!!! UNEXPECTED PROGRAM BEHAVIOUR, " +
+            self._print("!!!!! UNEXPECTED PROGRAM BEHAVIOUR, " +
                         f"RECEIVED ERROR: {error}")
 
     # Ask the user for a new command and process it
