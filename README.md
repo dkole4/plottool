@@ -32,6 +32,7 @@ py -m pip install .
 
 ## Using the application
 
+After installation the application can be started by running command `plottool` in terminal/console.
 To see all the available commands and their descriptions, use command `help` 
 
 ```
